@@ -1,3 +1,4 @@
+"use strict";
 import { galleryItems } from "./gallery-items.js";
 // Change code below this line
 
@@ -28,36 +29,25 @@ galleryItems.forEach((element) => {
   list.appendChild(listItem);
 });
 
-//CreateModalWithPicture on click
+//Show picture in modal on click
 list.addEventListener("click", (event) => {
   event.preventDefault();
   if (event.target.tagName === "IMG") {
-    const img = event.target;
-    const src = img.dataset.source;
-    basicLightbox.create(`<img src="${src}">`).show();
+    const src = event.target.dataset.source;
+    const imgHtml = `<img src="${src}">`;
+
+    //create instance basicLightbox
+    basicLightbox
+      .create(imgHtml, {
+        //close modal after press key Esc
+        onShow: (instance) => {
+          document.addEventListener("keydown", (event) => {
+            if (event.key === "Escape") {
+              instance.close();
+            }
+          });
+        },
+      })
+      .show();
   }
 });
-
-//<li class="gallery__item">
-// <a class="gallery__link" href="large-image.jpg">
-//    <img
-//     class="gallery__image"
-//      src="small-image.jpg"
-//      data-source="large-image.jpg"
-//      alt="Image description"
-//    />
-//  </a>
-//</li>;
-// const instance = basicLightbox.create(`
-//     <div class="modal">
-//         <p>
-//             Your first lightbox with just a few lines of code.
-//             Yes, it's really that simple.
-//         </p>
-//     </div>
-// `);
-
-// instance.show();
-// const instance = basicLightbox.create(`
-//     <img src="assets/images/image.png" width="800" height="600">
-// `);
